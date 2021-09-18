@@ -128,7 +128,7 @@
 
                     for (var x = 0; x < width; x ++) {
                         var cell = document.createElement("td");
-                        cell.innerText = letters.charAt(y * width + x).toUpperCase();
+                        cell.innerText = letters[y * width + x].toUpperCase();
                         row.appendChild(cell);
                     }
                 }
@@ -138,7 +138,15 @@
             }
 
             var args = new URLSearchParams(window.location.search);
+            var version = args.get('mv');
             var letters = args.get('b');
+
+            if (version >= 20017) {
+                letters = atob(letters)
+                letters = letters.split(",")
+            } else {
+                letters = letters.split("")
+            }
 
             var gridWrapper = document.getElementById("offline-game");
             gridWrapper.appendChild(buildGrid(letters));
