@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Lexica by lexica</title>
+
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+
+    <style>
+        .hide-without-js {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+
+        <h1>
+            Lexica
+        </h1>
+
+        <p>A Word Game for Android</p>
+
+        <p>
+            <a href="https://f-droid.org/repository/browse/?fdid=com.serwylo.lexica">
+                <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" style="height: 80px">
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.serwylo.lexica">
+                <img alt='Get it on Google Play'
+                     src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'
+                     style="height: 80px"/>
+            </a>
+        </p>
+
+    </header>
+    <section>
+        <h2>You have been challenged to a game</h2>
+
+        <h3>Already have Lexica installed?</h3>
+        <p>
+            If you have an Android device with Lexica installed, it should have prompted you to open Lexica.
+            <span class="hide-without-js">If Lexica did not open, </span>
+            <a id="open-in-lexica" class="hide-without-js open-in" href="#">click this link to open in Lexica.</a>
+        </p>
+
+
+        <h3>Don't have Lexica?</h3>
+        <p>
+            Download it from
+            <a href="https://f-droid.org/repository/browse/?fdid=com.serwylo.lexica">F-Droid</a>
+            or
+            <a href="https://play.google.com/store/apps/details?id=com.serwylo.lexica">Google Play</a>.
+        </p>
+
+        <div class="hide-without-js">
+            <h3>Can't get Lexica? Play offline.</h3>
+            <p>
+                Can't install Lexica? Don't have an Android device? Why not play with a pen and paper and your own timer?
+            </p>
+            <p id="when-ready">
+                <a href="#" id="click-to-start">
+                    Click here to show the board
+                </a>
+                when all players are ready to start.
+            </p>
+            <div id="offline-game">
+            </div>
+        </div>
+
+        <noscript>
+            <h3>Can't get Lexica? Play offline.</h3>
+            <p>
+                Enable JavaScript to show the game details here.
+            </p>
+        </noscript>
+
+    </section>
+    <footer>
+        <h3>Contribute</h3>
+        <p class="view"><a href="https://github.com/lexica/lexica">View the Project on GitHub
+            <small>lexica/lexica</small>
+        </a></p>
+        <h3>Donate</h3>
+        <p>
+            Support continued development of Lexica by donating.
+        </p>
+        <p>
+            <a href="https://liberapay.com/Lexica/donate" rel="nofollow">
+                <img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg">
+            </a>
+            <br />
+            <iframe src="https://github.com/sponsors/pserwylo/button" title="Sponsor pserwylo" height="35" width="116" style="border: 0;"></iframe>
+        </p>
+        <p>
+            <small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a>
+            </small>
+        </p>
+    </footer>
+</div>
+<script src="../javascripts/scale.fix.js"></script>
+<script>
+    (function() {
+
+        var toShow = document.getElementsByClassName("hide-without-js");
+        for (var i = 0; i < toShow.length; i ++) {
+            toShow[i].style.display = 'inline-block';
+        }
+
+        var openInLexica = document.getElementById("open-in-lexica");
+        openInLexica.href = "lexica://multiplayer" + window.location.search;
+
+        var clickToStart = document.getElementById('click-to-start');
+        clickToStart.onclick = function() {
+
+            var buildGrid = function(letters) {
+
+                var table = document.createElement("table");
+                table.className = 'board';
+                var width = Math.sqrt(letters.length);
+                for (var y = 0; y < width; y ++) {
+
+                    var row = document.createElement("tr");
+                    table.appendChild(row);
+
+                    for (var x = 0; x < width; x ++) {
+                        var cell = document.createElement("td");
+                        cell.innerText = letters[y * width + x].toUpperCase();
+                        row.appendChild(cell);
+                    }
+                }
+
+                return table;
+
+            }
+
+            var args = new URLSearchParams(window.location.search);
+            var version = args.get('mv');
+            var letters = args.get('b');
+
+            if (version >= 20017) {
+                letters = atob(letters)
+                letters = letters.split(",")
+            } else {
+                letters = letters.split("")
+            }
+
+            var gridWrapper = document.getElementById("offline-game");
+            gridWrapper.appendChild(buildGrid(letters));
+
+            var whenReady = document.getElementById("when-ready");
+            whenReady.style.display = 'none';
+        }
+
+    })();
+</script>
+
+</body>
+</html>
