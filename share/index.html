@@ -13,6 +13,14 @@
         .hide-without-js {
             display: none;
         }
+
+        .emphasis {
+            font-weight: bold;
+        }
+
+        .lexica-installed {
+            margin-top: 5rem;
+        }
     </style>
 </head>
 <body>
@@ -40,7 +48,11 @@
     <section>
         <h2>You have been challenged to a game</h2>
 
-        <h3>Already have Lexica installed?</h3>
+        <p id="score-to-beat" class="emphasis">
+            <!-- To be populated by JavaScript based on the URL. -->
+        </p>
+
+        <h3 class="lexica-installed">Already have Lexica installed?</h3>
         <p>
             If you have an Android device with Lexica installed, it should have prompted you to open Lexica.
             <span class="hide-without-js">If Lexica did not open, </span>
@@ -105,6 +117,8 @@
 <script>
     (function() {
 
+        var args = new URLSearchParams(window.location.search);
+
         var toShow = document.getElementsByClassName("hide-without-js");
         for (var i = 0; i < toShow.length; i ++) {
             toShow[i].style.display = 'inline-block';
@@ -112,6 +126,13 @@
 
         var openInLexica = document.getElementById("open-in-lexica");
         openInLexica.href = "lexica://multiplayer" + window.location.search;
+
+        var scoreToBeatElement = document.getElementById("score-to-beat");
+        var wordsToBeat = args.get("w");
+        var scoreToBeat = args.get("sc");
+        if (scoreToBeat.length > 0 && wordsToBeat.length > 0) {
+            scoreToBeatElement.innerText = "I found " + wordsToBeat + " words and scored " + scoreToBeat + " points on this Lexica board, can you beat me?";
+        }
 
         var clickToStart = document.getElementById('click-to-start');
         clickToStart.onclick = function() {
@@ -137,7 +158,6 @@
 
             }
 
-            var args = new URLSearchParams(window.location.search);
             var version = args.get('mv');
             var letters = args.get('b');
 
