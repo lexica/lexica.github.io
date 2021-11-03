@@ -69,9 +69,15 @@
         </p>
 
         <div class="hide-without-js">
-            <h3>Can't get Lexica? Play offline.</h3>
+            <h3>Can't get Lexica? Play another way.</h3>
             <p>
-                Can't install Lexica? Don't have an Android device? Why not play with a pen and paper and your own timer?
+                Can't install Lexica? Don't have an Android device?
+                <a href="#" id="web-lexica-link">
+                    Try out the in-browser version of Lexica (beta).
+                </a>
+            </p>
+            <p>
+                If that doesn't work, try playing with a pen and paper and your own timer.
             </p>
             <p id="when-ready">
                 <a href="#" id="click-to-start">
@@ -126,6 +132,9 @@
 
         var openInLexica = document.getElementById("open-in-lexica");
         openInLexica.href = "lexica://multiplayer" + window.location.search;
+
+        var webLexicaLink = document.getElementById("web-lexica-link");
+        webLexicaLink.href = "https://lexica.github.io/web-lexica/multiplayer/" + window.location.search;
 
         var scoreToBeatElement = document.getElementById("score-to-beat");
         var wordsToBeat = args.get("w");
